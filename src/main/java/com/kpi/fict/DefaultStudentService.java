@@ -1,6 +1,9 @@
 package com.kpi.fict;
 
+import com.kpi.fict.entities.Student;
 import com.kpi.fict.repositories.StudentRepository;
+
+import java.util.List;
 
 public class DefaultStudentService implements StudentService {
     private StudentRepository studentRepository;
@@ -10,27 +13,27 @@ public class DefaultStudentService implements StudentService {
     }
 
     @Override
-    public void task1() {
+    public Student findFirstWithoutMath() {
         throw new UnsupportedOperationException("Need to make implementation");
     }
 
     @Override
-    public void task2() {
+    public List<Student> findStudentsWithMathRatingMoreThanAvgAndTakeEngExam() {
         throw new UnsupportedOperationException("Need to make implementation");
     }
 
     @Override
-    public void task3() {
+    public List<String> getExamSumAndRatingForEachStudent() {
         throw new UnsupportedOperationException("Need to make implementation");
     }
 
     @Override
-    public void task4() {
+    public List<Student> findStudentsWithTwoExams() {
         throw new UnsupportedOperationException("Need to make implementation");
     }
 
     @Override
-    public void task5() {
+    public Student findStudentWithMaxEngRating() {
         throw new UnsupportedOperationException("Need to make implementation");
     }
 
