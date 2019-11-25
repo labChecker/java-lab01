@@ -4,6 +4,7 @@ import com.kpi.fict.entities.Exam;
 import com.kpi.fict.entities.Student;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class StudentRepository {
@@ -12,33 +13,19 @@ public class StudentRepository {
 
     private static List<Student> getStudents() {
         return Arrays.asList(
-                Student.builder()
-                        .name("1")
-                        .rating(10)
-                        .exams(Arrays.asList(Exam.of(Exam.Type.ENGLISH, 181)))
-                        .build(),
-                Student.builder()
-                        .name("2")
-                        .rating(11)
-                        .exams(Arrays.asList(Exam.of(Exam.Type.ENGLISH, 182),
-                                Exam.of(Exam.Type.MATH, 190)))
-                        .build(),
-                Student.builder()
-                        .name("3")
-                        .rating(11)
-                        .exams(Arrays.asList(Exam.of(Exam.Type.ENGLISH, 183),
-                                Exam.of(Exam.Type.MATH, 190)))
-                        .build(),
-                Student.builder()
-                        .name("4")
-                        .rating(11)
-                        .exams(Arrays.asList())
-                        .build()
+                new Student("1", 10,
+                        Collections.singletonList(new Exam(Exam.Type.ENGLISH, 181))),
+                new Student("2", 11,
+                        Arrays.asList(new Exam(Exam.Type.ENGLISH, 182), new Exam(Exam.Type.MATH, 190))),
+                new Student("3", 11,
+                        Arrays.asList(new Exam(Exam.Type.ENGLISH, 183), new Exam(Exam.Type.MATH, 190))),
+                new Student("4", 11,
+                        Collections.emptyList())
         );
     }
 
 
-    public List<Student> findAll(){
+    public List<Student> findAll() {
         return students;
     }
 
