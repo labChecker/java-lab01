@@ -13,7 +13,7 @@ public class DefaultStudentService implements StudentService {
     }
 
     @Override
-    public Student findStudentsWithoutExams() {
+    public List<Student> findStudentsWithoutExams() {
         throw new UnsupportedOperationException("Need to make implementation");
     }
 
