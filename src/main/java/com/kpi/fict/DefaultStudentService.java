@@ -34,7 +34,7 @@ public class DefaultStudentService implements StudentService {
     }
 
     @Override
-    List<Student> findStudentsWhoTakeEngExamWith11RatingOrMore(); {
+    public List<Student> findStudentsWhoTakeEngExamWith11RatingOrMore() {
         throw new UnsupportedOperationException("Need to make implementation");
     }
 
