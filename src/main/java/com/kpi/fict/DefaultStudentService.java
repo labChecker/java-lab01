@@ -27,14 +27,14 @@ public class DefaultStudentService implements StudentService {
     public List<String> getExamSumAndRatingForEachStudent() {
         throw new UnsupportedOperationException("Need to make implementation");
     }
-
-    @Override
-    public List<Student> findStudentsWhoTakeMathEngExamWith180RatingOrMore() {
+    
+     @Override
+    public List<Student> findTwoStudentsWithMaxEngRating() {
         throw new UnsupportedOperationException("Need to make implementation");
     }
 
     @Override
-    public List<Student> findTwoStudentsWithMaxEngRating() {
+    List<Student> findStudentsWhoTakeEngExamWith11RatingOrMore(); {
         throw new UnsupportedOperationException("Need to make implementation");
     }
 
