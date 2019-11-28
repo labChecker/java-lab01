@@ -13,7 +13,7 @@ public class DefaultStudentService implements StudentService {
     }
 
     @Override
-    public String findStudentWithMaxAvgExamRating() {
+    public Student findStudentWithMaxAvgExamRating() {
         throw new UnsupportedOperationException("Need to make implementation");
     }
 
