@@ -10,8 +10,8 @@ public interface StudentService {
     List<Student> findStudentsWithMathRatingMoreThanAvgAndTakeEngExam();
 
     List<String> getExamSumAndRatingForEachStudent();
-
-    List<Student> findStudentsWhoTakeMathEngExamWith180RatingOrMore();
-
+    
     List<Student> findTwoStudentsWithMaxEngRating();
+
+    List<Student> findStudentsWhoTakeEngExamWith11RatingOrMore();
 }
