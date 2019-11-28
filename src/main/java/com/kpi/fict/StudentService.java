@@ -13,5 +13,5 @@ public interface StudentService {
 
     Student findStudentWithMaxEngRating();
 
-    Student findStudentsWithoutExams();
+    List<Student> findStudentsWithoutExams();
 }
