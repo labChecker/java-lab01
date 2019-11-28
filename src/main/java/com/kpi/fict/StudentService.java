@@ -5,7 +5,7 @@ import com.kpi.fict.entities.Student;
 import java.util.List;
 
 public interface StudentService {
-    Student findStudentsWithoutExams();
+    List<Student> findStudentsWithoutExams();
 
     double findAvgRatingOfMathExam();
 
