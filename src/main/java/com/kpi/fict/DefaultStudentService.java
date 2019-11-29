@@ -1,9 +1,11 @@
 package com.kpi.fict;
 
+import com.kpi.fict.entities.Exam;
 import com.kpi.fict.entities.Student;
 import com.kpi.fict.repositories.StudentRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DefaultStudentService implements StudentService {
     private StudentRepository studentRepository;
@@ -14,17 +16,27 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public List<Student> findStudentsWithoutExams() {
-        throw new UnsupportedOperationException("Need to make implementation");
+        return studentRepository.findAll()
+                .stream()
+                .filter(student -> student.getExams().isEmpty())
+                .collect(Collectors.toList());
     }
 
     @Override
     public Student findFirstWithoutMath() {
-        throw new UnsupportedOperationException("Need to make implementation");
+        return studentRepository.findAll()
+                .stream()
+                .filter(student -> student.getExams().indexOf(Exam.Type.MATH) == -1)
+                .findFirst()
+                .get();
     }
 
     @Override
     public List<Student> findAllWithRatingLessThan300() {
-        throw new UnsupportedOperationException("Need to make implementation");
+        return studentRepository.findAll()
+                .stream()
+                .filter(student -> student.getRating() < 300)
+                .collect(Collectors.toList());
     }
 
     @Override
