@@ -25,13 +25,12 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public List<Student> findStudentsWhoTakeEngExamWith11RatingOrMore() {
-        throw new UnsupportedOperationException();
-//        return studentRepository.findAll().stream()
-//                .filter(student -> student.getRating() >= 11)
-//                .filter(student -> student.getExams()
-//                        .stream()
-//                        .anyMatch(exam -> exam.getType().equals(Exam.Type.ENGLISH)))
-//                .collect(Collectors.toList());
+        return studentRepository.findAll().stream()
+                .filter(student -> student.getRating() >= 11)
+                .filter(student -> student.getExams()
+                        .stream()
+                        .anyMatch(exam -> exam.getType().equals(Exam.Type.ENGLISH)))
+                .collect(Collectors.toList());
     }
 
     @Override
