@@ -52,6 +52,7 @@ public class DefaultStudentService implements StudentService {
         return studentRepository.findAll()
                 .stream()
                 .flatMap(student -> student.getExams().stream())
+                .filter(exam -> exam.getType().equals(Exam.Type.MATH))
                 .mapToDouble(Exam::getScore)
                 .average()
                 .getAsDouble();
@@ -64,10 +65,7 @@ public class DefaultStudentService implements StudentService {
         return studentRepository.findAll().stream()
                 .filter(student -> student.getExams()
                         .stream()
-                        .anyMatch(exam -> exam.getType().equals(Exam.Type.MATH) || exam.getType().equals(Exam.Type.ENGLISH)))
-                .filter(student -> student.getExams()
-                        .stream()
-                        .allMatch(exam -> exam.getType().equals(Exam.Type.MATH) && exam.getScore() > avgRatingOfMathExam))
+                        .anyMatch(exam -> (exam.getType().equals(Exam.Type.MATH) && exam.getScore() > avgRatingOfMathExam) || exam.getType().equals(Exam.Type.ENGLISH)))
                 .collect(Collectors.toList());
     }
 
