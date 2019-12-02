@@ -65,7 +65,8 @@ public class DefaultStudentService implements StudentService {
         return studentRepository.findAll().stream()
                 .filter(student -> student.getExams()
                         .stream()
-                        .anyMatch(exam -> (exam.getType().equals(Exam.Type.MATH) && exam.getScore() > avgRatingOfMathExam) || exam.getType().equals(Exam.Type.ENGLISH)))
+                        .anyMatch(exam -> (exam.getType().equals(Exam.Type.MATH) && exam.getScore() > avgRatingOfMathExam))
+                        && student.getExams().stream().anyMatch(exam -> exam.getType().equals(Exam.Type.ENGLISH)))
                 .collect(Collectors.toList());
     }
 
