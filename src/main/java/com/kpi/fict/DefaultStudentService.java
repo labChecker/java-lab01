@@ -1,9 +1,11 @@
 package com.kpi.fict;
 
+import com.kpi.fict.entities.Exam;
 import com.kpi.fict.entities.Student;
 import com.kpi.fict.repositories.StudentRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DefaultStudentService implements StudentService {
     private StudentRepository studentRepository;
@@ -14,27 +16,59 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public List<Student> findStudentsWhoTakeMathAndOneMoreExam() {
-        throw new UnsupportedOperationException("Need to make implementation");
+        return studentRepository.findAll()
+                .stream()
+                .filter(student -> student.getExams().size() >= 2 &&
+                        student.getExams().stream().anyMatch(exam -> exam.getType().equals(Exam.Type.MATH)))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<Student> findStudentsWhoTakeEngExamWith11RatingOrMore() {
-        throw new UnsupportedOperationException("Need to make implementation");
+        return studentRepository.findAll().stream()
+                .filter(student -> student.getRating() >= 11)
+                .filter(student -> student.getExams()
+                        .stream()
+                        .anyMatch(exam -> exam.getType().equals(Exam.Type.ENGLISH)))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<Student> findStudentsWhoTakeMathEngExamWith180RatingOrMore() {
-        throw new UnsupportedOperationException("Need to make implementation");
+        return studentRepository.findAll().stream()
+                .filter(student -> student
+                        .getExams()
+                        .stream()
+                        .anyMatch(exam -> exam.getType().equals(Exam.Type.MATH) && exam.getScore() >= 180))
+                .filter(student -> student
+                        .getExams()
+                        .stream()
+                        .anyMatch(exam -> exam.getType().equals(Exam.Type.ENGLISH) && exam.getScore() >= 180))
+                .collect(Collectors.toList());
     }
 
     @Override
     public double findAvgRatingOfMathExam() {
-        throw new UnsupportedOperationException("Need to make implementation");
+        return studentRepository.findAll()
+                .stream()
+                .flatMap(student -> student.getExams().stream())
+                .mapToDouble(Exam::getScore)
+                .average()
+                .getAsDouble();
     }
 
     @Override
     public List<Student> findStudentsWithMathRatingMoreThanAvgAndTakeEngExam() {
-        throw new UnsupportedOperationException("Need to make implementation");
+        double avgRatingOfMathExam = findAvgRatingOfMathExam();
+
+        return studentRepository.findAll().stream()
+                .filter(student -> student.getExams()
+                        .stream()
+                        .anyMatch(exam -> exam.getType().equals(Exam.Type.MATH) || exam.getType().equals(Exam.Type.ENGLISH)))
+                .filter(student -> student.getExams()
+                        .stream()
+                        .allMatch(exam -> exam.getType().equals(Exam.Type.MATH) && exam.getScore() > avgRatingOfMathExam))
+                .collect(Collectors.toList());
     }
 
     public StudentRepository getStudentRepository() {
