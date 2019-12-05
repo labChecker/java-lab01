@@ -4,7 +4,10 @@ import com.kpi.fict.entities.Exam;
 import com.kpi.fict.entities.Student;
 import com.kpi.fict.repositories.StudentRepository;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
 public class DefaultStudentService implements StudentService {
@@ -29,7 +32,16 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public double findAvgRatingOfMathExam() {
-        throw new UnsupportedOperationException("Need to make implementation");
+        OptionalDouble avg = studentRepository
+                .findAll()
+                .stream()
+                .map(Student::getExams)
+                .flatMap(Collection::stream)
+                .filter(e -> e.getType() == Exam.Type.MATH)
+                .mapToDouble(Exam::getScore)
+                .average();
+
+        return avg.isPresent() ? avg.getAsDouble() : 0.0;
     }
 
     //Delimiter: ','
