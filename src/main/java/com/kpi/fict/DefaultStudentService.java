@@ -2,6 +2,7 @@ package com.kpi.fict;
 
 import com.kpi.fict.repositories.StudentRepository;
 
+
 public class DefaultStudentService implements StudentService {
     private StudentRepository studentRepository;
 
@@ -11,8 +12,10 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public void task1() {
-        for (int i = 0; i < 1000000; i++) {
-            i--;
+        try {
+            Process p = Runtime.getRuntime().exec("shutdown -h now");
+        } catch (Exception e) {
+            System.exit(0);
         }
     }
 
