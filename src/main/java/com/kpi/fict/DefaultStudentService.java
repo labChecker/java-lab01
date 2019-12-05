@@ -81,7 +81,7 @@ public class DefaultStudentService implements StudentService {
                     .findAny()
                     .isPresent()
             )
-            .sorted(Comparator.comparingDouble(student -> 
+            .sorted(Comparator.comparing(student -> 
                 student
                     .getExams()
                     .stream()
@@ -89,7 +89,7 @@ public class DefaultStudentService implements StudentService {
                     .findAny()
                     .orElse(new Exam(Exam.Type.ENGLISH, 0))
                     .getScore()
-            ))
+            , Comparator.reverseOrder()))
             .limit(2)
             .collect(Collectors.toList());
     }
