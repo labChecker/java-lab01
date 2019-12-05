@@ -6,8 +6,6 @@ import com.kpi.fict.repositories.StudentRepository;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
-import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
 public class DefaultStudentService implements StudentService {
@@ -69,23 +67,17 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public List<Student> findStudentsWithRatingMoreThanAvgAndTakeMathExam() {
-        double avg = studentRepository
+        double avgRating = studentRepository
                 .findAll()
                 .stream()
-                .map(Student::getExams)
-                .flatMap(Collection::stream)
-                .mapToDouble(Exam::getScore)
+                .mapToDouble(Student::getRating)
                 .average()
                 .orElse(0.0);
+
         return studentRepository
                 .findAll()
                 .stream()
-                .filter(s -> s
-                        .getExams()
-                        .stream()
-                        .mapToDouble(Exam::getScore)
-                        .average()
-                        .orElse(0.0) > avg && s
+                .filter(s -> s.getRating() > avgRating && s
                         .getExams()
                         .stream()
                         .anyMatch(e -> e.getType() == Exam.Type.MATH))
