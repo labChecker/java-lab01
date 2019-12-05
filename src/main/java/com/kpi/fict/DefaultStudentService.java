@@ -32,22 +32,30 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public double findAvgRatingOfMathExam() {
-        OptionalDouble avg = studentRepository
+        return studentRepository
                 .findAll()
                 .stream()
                 .map(Student::getExams)
                 .flatMap(Collection::stream)
                 .filter(e -> e.getType() == Exam.Type.MATH)
                 .mapToDouble(Exam::getScore)
-                .average();
-
-        return avg.isPresent() ? avg.getAsDouble() : 0.0;
+                .average()
+                .orElse(0.0);
     }
 
     //Delimiter: ','
     @Override
     public List<String> calculateAvgRatingForEachStudent() {
-        throw new UnsupportedOperationException("Need to make implementation");
+        return studentRepository
+                .findAll()
+                .stream()
+                .map(s -> s.getName() + "," + s
+                        .getExams()
+                        .stream()
+                        .mapToDouble(Exam::getScore)
+                        .average()
+                        .orElse(0.0))
+                .collect(Collectors.toList());
     }
 
     @Override
