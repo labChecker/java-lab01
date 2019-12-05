@@ -42,7 +42,7 @@ public class DefaultStudentService implements StudentService {
                 .stream()
                 .filter(exam -> exam.getType() == Exam.Type.MATH)
                 .findAny()
-                .get()
+                .orElse(new Exam(Exam.Type.MATH, 0))
                 .getScore()
                 > mathAvg
             &&
@@ -60,10 +60,9 @@ public class DefaultStudentService implements StudentService {
     public List<String> getExamSumAndRatingForEachStudent() {
         return studentRepository.findAll().stream().map(student -> 
             String.join(
+                ",",
                 student.getExams().stream().map(exam -> exam.getScore()).reduce(0.0, (a, v) -> a + v).toString(),
-                ",",
                 Double.toString(student.getRating()),
-                ",",
                 student.getName()
             )
         ).collect(Collectors.toList());
@@ -88,7 +87,7 @@ public class DefaultStudentService implements StudentService {
                     .stream()
                     .filter(exam -> exam.getType() == Exam.Type.ENGLISH)
                     .findAny()
-                    .get()
+                    .orElse(new Exam(Exam.Type.ENGLISH, 0))
                     .getScore()
             ))
             .limit(2)
