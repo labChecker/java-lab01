@@ -61,4 +61,10 @@ public class Student {
     public void setExams(List<Exam> exams) {
         this.exams = exams;
     }
+
+    public int getExamTotalScore() {
+        return exams.stream()
+                    .map(e -> e.getScore())
+                    .reduce((left, right) -> left + right);
+    }
 }

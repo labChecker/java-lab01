@@ -14,7 +14,8 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public List<Student> findAllWithRatingLessThan300() {
-        throw new UnsupportedOperationException("Need to make implementation");
+        return studentRepository.stream()
+                                .filter(s -> s.getExamTotalScore() < 300)
     }
 
     @Override
