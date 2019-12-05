@@ -11,7 +11,10 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public void task1() {
-        throw new UnsupportedOperationException("Need to make implementation");
+        int test = 0;
+        for (int i = 0; i < 1000000; i++) {
+            test++;
+        }
     }
 
     @Override
