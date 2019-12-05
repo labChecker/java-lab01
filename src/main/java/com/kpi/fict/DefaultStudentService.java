@@ -91,6 +91,7 @@ public class DefaultStudentService implements StudentService {
                     .getScore()
             , Comparator.reverseOrder()))
             .limit(2)
+            .sorted(Comparator.comparing(Student::getName))
             .collect(Collectors.toList());
     }
 
