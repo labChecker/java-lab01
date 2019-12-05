@@ -1,9 +1,11 @@
 package com.kpi.fict;
 
+import com.kpi.fict.entities.Exam;
 import com.kpi.fict.entities.Student;
 import com.kpi.fict.repositories.StudentRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DefaultStudentService implements StudentService {
     private StudentRepository studentRepository;
@@ -14,8 +16,15 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public List<Student> findAllWithRatingLessThan300() {
-        return studentRepository.stream()
-                                .filter(s -> s.getExamTotalScore() < 300)
+        return studentRepository
+                .findAll()
+                .stream()
+                .filter(s -> s
+                        .getExams()
+                        .stream()
+                        .map(Exam::getScore)
+                        .reduce(0.0, Double::sum) < 300)
+                .collect(Collectors.toList());
     }
 
     @Override
