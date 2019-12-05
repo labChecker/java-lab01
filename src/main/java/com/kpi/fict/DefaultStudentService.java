@@ -60,7 +60,11 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public List<Student> findStudentsWithoutExams() {
-        throw new UnsupportedOperationException("Need to make implementation");
+        return studentRepository
+                .findAll()
+                .stream()
+                .filter(s -> s.getExams().size() == 0)
+                .collect(Collectors.toList());
     }
 
     @Override
