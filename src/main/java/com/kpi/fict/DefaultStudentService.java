@@ -69,6 +69,14 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public List<Student> findStudentsWithRatingMoreThanAvgAndTakeMathExam() {
+        double avg = studentRepository
+                .findAll()
+                .stream()
+                .map(Student::getExams)
+                .flatMap(Collection::stream)
+                .mapToDouble(Exam::getScore)
+                .average()
+                .orElse(0.0);
         return studentRepository
                 .findAll()
                 .stream()
@@ -77,7 +85,7 @@ public class DefaultStudentService implements StudentService {
                         .stream()
                         .mapToDouble(Exam::getScore)
                         .average()
-                        .orElse(0.0) > 100.0 && s
+                        .orElse(0.0) > avg && s
                         .getExams()
                         .stream()
                         .anyMatch(e -> e.getType() == Exam.Type.MATH))
