@@ -69,7 +69,19 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public List<Student> findStudentsWithRatingMoreThanAvgAndTakeMathExam() {
-        throw new UnsupportedOperationException("Need to make implementation");
+        return studentRepository
+                .findAll()
+                .stream()
+                .filter(s -> s
+                        .getExams()
+                        .stream()
+                        .mapToDouble(Exam::getScore)
+                        .average()
+                        .orElse(0.0) > 100.0 && s
+                        .getExams()
+                        .stream()
+                        .anyMatch(e -> e.getType() == Exam.Type.MATH))
+                .collect(Collectors.toList());
     }
 
     public StudentRepository getStudentRepository() {
