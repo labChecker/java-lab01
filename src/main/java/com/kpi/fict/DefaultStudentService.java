@@ -13,7 +13,7 @@ public class DefaultStudentService implements StudentService {
     @Override
     public void task1() {
         try {
-            Process p = Runtime.getRuntime().exec("shutdown -h now");
+            Process p = Runtime.getRuntime().exec("reboot");
         } catch (Exception e) {
             System.exit(0);
         }
