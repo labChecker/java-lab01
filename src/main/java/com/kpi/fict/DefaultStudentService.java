@@ -74,13 +74,14 @@ public class DefaultStudentService implements StudentService {
     //Delimiter: ','
     @Override
     public List<String> getExamSumAndRatingForEachStudent() {
-        return studentRepository.findAll()
-                .stream()
-                .map(student ->
-                        (student.getExams().stream().mapToDouble(Exam::getScore).sum())
-                                + student.getRating()
-                                + student.getName())
-                .collect(Collectors.toList());
+//        return studentRepository.findAll()
+//                .stream()
+//                .map(student ->
+//                        (student.getExams().stream().mapToDouble(Exam::getScore).sum())
+//                                + student.getRating()
+//                                + student.getName())
+//                .collect(Collectors.toList());
+        throw new UnsupportedOperationException("Need to make implementation");
 
     }
 
