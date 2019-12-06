@@ -22,7 +22,7 @@ public class DefaultStudentService implements StudentService {
                 .filter(student ->
                         student.getExams()
                                 .stream()
-                                .anyMatch(exam -> exam.getType() == Exam.Type.MATH)
+                                .noneMatch(exam -> exam.getType() == Exam.Type.MATH)
                 )
                 .findFirst()
                 .orElse(null);
@@ -33,6 +33,7 @@ public class DefaultStudentService implements StudentService {
         return this.studentRepository
                 .findAll()
                 .stream()
+                .filter(student -> student.getExams().size() == 2)
                 .filter(student ->
                         student.getExams()
                                 .stream()
@@ -50,20 +51,19 @@ public class DefaultStudentService implements StudentService {
                                             .stream()
                                             .anyMatch(exam -> exam.getType() == Exam.Type.ENGLISH)
                 )
-                .max((left, right) ->
+                .max((left, right) -> (int) Math.round(
                         left.getExams()
                                 .stream()
                                 .filter(exam -> exam.getType() == Exam.Type.ENGLISH)
                                 .findAny()
                                 .orElse(null)
-                                .getScore() > right.getExams()
+                                .getScore() - right.getExams()
                                                         .stream()
                                                         .filter(exam -> exam.getType() == Exam.Type.ENGLISH)
                                                         .findAny()
                                                         .orElse(null)
                                                         .getScore()
-                            ? 1
-                            : 0
+                        )
                 )
                 .orElse(null);
     }
@@ -73,7 +73,7 @@ public class DefaultStudentService implements StudentService {
         return this.studentRepository
                     .findAll()
                     .stream()
-                    .filter(student -> student.getRating() > 11)
+                    .filter(student -> student.getRating() >= 11)
                     .collect(Collectors.toList());
     }
 
