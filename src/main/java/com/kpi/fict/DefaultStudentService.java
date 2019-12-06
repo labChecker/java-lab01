@@ -57,19 +57,15 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public List<Student> findStudentsWhoTakeMathEngExamWith180RatingOrMore() {
-        return studentRepository.findAll()
-                .stream()
-                .filter( student ->
-                        (student.getExams()
-                                .stream()
-                                .anyMatch(exam -> (exam.getType() == Exam.Type.ENGLISH)
-                                    && (exam.getScore() >= 180)))
-                )
-                .filter(student ->
-                        (student.getExams()
-                                .stream()
-                                .anyMatch(exam -> (exam.getType() == Exam.Type.MATH)
-                                        && (exam.getScore() >= 180))))
+        return studentRepository.findAll().stream()
+                .filter(student -> student
+                        .getExams()
+                        .stream()
+                        .anyMatch(exam -> exam.getType().equals(Exam.Type.MATH) && exam.getScore() >= 180))
+                .filter(student -> student
+                        .getExams()
+                        .stream()
+                        .anyMatch(exam -> exam.getType().equals(Exam.Type.ENGLISH) && exam.getScore() >= 180))
                 .collect(Collectors.toList());
 //        throw new UnsupportedOperationException("Need to make implementation");
     }
