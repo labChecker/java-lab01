@@ -23,7 +23,7 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public List<Student> findStudentsWhoTakeEngExamWith11RatingOrMore() {
-        return this.studentRepository.findAll().stream().filter(student -> student.getRating() >= 11 || student.getExams().stream().anyMatch(exam -> exam.getType() == Exam.Type.ENGLISH)).collect(Collectors.toList());
+        return this.studentRepository.findAll().stream().filter(student -> student.getRating() >= 11 && student.getExams().stream().anyMatch(exam -> exam.getType() == Exam.Type.ENGLISH)).collect(Collectors.toList());
     }
 
     @Override
