@@ -5,6 +5,7 @@ import com.kpi.fict.entities.Student;
 import com.kpi.fict.repositories.StudentRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class DefaultStudentService implements StudentService {
@@ -51,12 +52,12 @@ public class DefaultStudentService implements StudentService {
                 .findAll()
                 .stream()
                 .map(s -> {
-                    double sum = s
+                    Optional<Double> sum = s
                             .getExams()
                             .stream()
-                            .map(e -> e.getScore())
-                            .reduce(Double::sum)
-                            .get();
+                            .map(Exam::getScore)
+                            .reduce(Double::sum);
+                    double _sum = sum.isPresent() ? sum.get() : 0;
                     return sum + "," + s.getRating() + "," + s.getName();
                 })
                 .collect(Collectors.toList());
@@ -82,21 +83,19 @@ public class DefaultStudentService implements StudentService {
                 .findAll()
                 .stream()
                 .sorted((a, b) -> {
-                    double aa = a
+                    Optional<Exam> aa = a
                             .getExams()
                             .stream()
                             .filter(e -> e.getType() == Exam.Type.ENGLISH)
-                            .findFirst()
-                            .get()
-                            .getScore();
-                    double bb = b
+                            .findFirst();
+                    Optional<Exam> bb = b
                             .getExams()
                             .stream()
                             .filter(e -> e.getType() == Exam.Type.ENGLISH)
-                            .findFirst()
-                            .get()
-                            .getScore();
-                    return Double.compare(aa, bb);
+                            .findFirst();
+                    double _aa = aa.map(Exam::getScore).orElse(0.0);
+                    double _bb = bb.map(Exam::getScore).orElse(0.0);
+                    return Double.compare(_aa, _bb);
                 })
                 .collect(Collectors.toList());
     }
