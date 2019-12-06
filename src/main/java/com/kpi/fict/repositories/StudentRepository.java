@@ -16,7 +16,7 @@ public class StudentRepository {
                 new Student("1", 10,
                         Collections.singletonList(new Exam(Exam.Type.ENGLISH, 181))),
                 new Student("2", 11,
-                        Arrays.asList(new Exam(Exam.Type.ENGLISH, 182), new Exam(Exam.Type.MATH, 190))),
+                        Arrays.asList(new Exam(Exam.Type.ENGLISH, 179), new Exam(Exam.Type.MATH, 190))),
                 new Student("3", 11,
                         Arrays.asList(new Exam(Exam.Type.ENGLISH, 183), new Exam(Exam.Type.MATH, 190))),
                 new Student("4", 11,

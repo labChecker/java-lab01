@@ -73,6 +73,7 @@ public class DefaultStudentService implements StudentService {
         return this.studentRepository
                     .findAll()
                     .stream()
+                    .filter(student -> student.getExams().size() > 0)
                     .filter(student -> student.getRating() >= 11)
                     .collect(Collectors.toList());
     }
