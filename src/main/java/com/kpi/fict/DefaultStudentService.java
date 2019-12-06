@@ -28,9 +28,7 @@ public class DefaultStudentService implements StudentService {
         return studentRepository.findAll()
                 .stream()
                 .filter(student -> (student.getExams().stream()
-                        .filter(exam -> exam.getType() == Exam.Type.ENGLISH)
-                        .findAny()
-                        .isPresent())
+                        .anyMatch(exam -> exam.getType() == Exam.Type.ENGLISH))
                         && (student.getRating() >= 11))
                 .collect(Collectors.toList());
     }
@@ -59,20 +57,21 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public List<Student> findStudentsWhoTakeMathEngExamWith180RatingOrMore() {
-//        return studentRepository.findAll()
-//                .stream()
-//                .filter( student ->
-//                        (student.getExams()
-//                                .stream()
-//                                .anyMatch(exam -> (exam.getType() == Exam.Type.ENGLISH)
-//                                    && (exam.getScore() >= 180)))
-//                        && (student.getExams()
-//                                .stream()
-//                                .anyMatch(exam -> (exam.getType() == Exam.Type.MATH)
-//                                    && (exam.getScore() >= 180)))
-//                )
-//                .collect(Collectors.toList());
-        throw new UnsupportedOperationException("Need to make implementation");
+        return studentRepository.findAll()
+                .stream()
+                .filter( student ->
+                        (student.getExams()
+                                .stream()
+                                .anyMatch(exam -> (exam.getType() == Exam.Type.ENGLISH)
+                                    && (exam.getScore() >= 180)))
+                )
+                .filter(student ->
+                        (student.getExams()
+                                .stream()
+                                .anyMatch(exam -> (exam.getType() == Exam.Type.MATH)
+                                        && (exam.getScore() >= 180))))
+                .collect(Collectors.toList());
+//        throw new UnsupportedOperationException("Need to make implementation");
     }
 
     //Delimiter: ','
