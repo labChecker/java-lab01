@@ -35,7 +35,25 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public List<Student> findTwoStudentsWithMaxEngRating() {
-        throw new UnsupportedOperationException("Need to make implementation");
+
+         List<Double> engRating = studentRepository.findAll()
+                 .stream()
+                 .flatMap(student -> student.getExams().stream())
+                 .filter(exam -> exam.getType() == Exam.Type.ENGLISH)
+                 .mapToDouble(Exam::getScore)
+                 .sorted()
+                 .boxed()
+                 .collect(Collectors.toList());
+        return studentRepository.findAll()
+                .stream()
+                .filter(student -> student.getExams().stream()
+                        .anyMatch(exam ->
+                                (exam.getScore() == engRating.get(1))
+                                        ||(exam.getScore() == engRating.get(2))
+                        )
+                )
+                .collect(Collectors.toList());
+
     }
 
     @Override
