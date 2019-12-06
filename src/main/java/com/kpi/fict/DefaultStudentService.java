@@ -21,8 +21,14 @@ public class DefaultStudentService implements StudentService {
                 .findAll()
                 .stream()
                 .max((a, b) -> {
-                    double r1 = a.getRating();
-                    double r2 = b.getRating();
+                    double r1 = a
+                            .getExams()
+                            .stream()
+                            .map(Exam::getScore).reduce(Double::sum).get() / a.getExams().size();
+                    double r2 = b
+                            .getExams()
+                            .stream()
+                            .map(Exam::getScore).reduce(Double::sum).get() / b.getExams().size();
                     return Double.compare(r1, r2);
                 })
                 .get();
@@ -66,7 +72,7 @@ public class DefaultStudentService implements StudentService {
                             .map(Exam::getScore)
                             .reduce(Double::sum);
                     double _sum = sum.isPresent() ? sum.get() : 0;
-                    return _sum + "," + s.getRating();
+                    return _sum + "," + s.getRating() + "," + s.getName();
                 })
                 .collect(Collectors.toList());
     }
