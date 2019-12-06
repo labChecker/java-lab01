@@ -28,15 +28,19 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public List<Student> findTwoStudentsWithMaxEngRating() {
-        return this.studentRepository.findAll().stream().filter(student -> (long) student.getExams().size() > 0).sorted(Comparator.comparing(stud -> stud.getExams().stream().filter(exam -> exam.getType() == Exam.Type.ENGLISH).mapToDouble(Exam::getScore).toArray()[0])).collect(Collectors.collectingAndThen(Collectors.toList(), list -> {
+        return this.studentRepository.findAll().stream().filter(student -> (long) student.getExams().size() > 0).sorted(Comparator.comparing(stud -> stud.getExams().stream().filter(exam -> exam.getType() == Exam.Type.ENGLISH).mapToDouble(Exam::getScore).toArray()[0]))
+                .collect(Collectors.collectingAndThen(Collectors.toList(), list -> {
                     Collections.reverse(list);
                     return list;
-            })).stream().limit(2).collect(Collectors.toList());
+            })).stream().limit(2).collect(Collectors.collectingAndThen(Collectors.toList(), list -> {
+                    Collections.reverse(list);
+                    return list;
+                }));//.collect(Collectors.toList());
     }
 
     @Override
     public List<String> calculateAvgRatingForEachStudent() {
-        return this.studentRepository.findAll().stream().map(student -> student.getName() + "+" + student.getExams().stream().mapToDouble(Exam::getScore).reduce(0, Double::sum)).collect(Collectors.toList());
+        return this.studentRepository.findAll().stream().filter(student -> (long) student.getExams().size() > 0).map(student -> student.getName() + "+" + (student.getExams().stream().mapToDouble(Exam::getScore).reduce(0, Double::sum) / student.getExams().size())).collect(Collectors.toList());
     }
 
     @Override
