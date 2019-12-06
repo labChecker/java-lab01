@@ -58,7 +58,7 @@ public class DefaultStudentService implements StudentService {
                             .map(Exam::getScore)
                             .reduce(Double::sum);
                     double _sum = sum.isPresent() ? sum.get() : 0;
-                    return sum + "," + s.getRating() + "," + s.getName();
+                    return _sum + "," + s.getRating() + "," + s.getName();
                 })
                 .collect(Collectors.toList());
     }
@@ -97,6 +97,7 @@ public class DefaultStudentService implements StudentService {
                     double _bb = bb.map(Exam::getScore).orElse(0.0);
                     return Double.compare(_aa, _bb);
                 })
+                .limit(2)
                 .collect(Collectors.toList());
     }
 
