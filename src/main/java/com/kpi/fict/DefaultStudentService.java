@@ -4,6 +4,7 @@ import com.kpi.fict.entities.Student;
 import com.kpi.fict.repositories.StudentRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DefaultStudentService implements StudentService {
     private StudentRepository studentRepository;
@@ -14,7 +15,10 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public List<Student> findStudentsWithoutExams() {
-        throw new UnsupportedOperationException("Need to make implementation");
+        List<Student> students = studentRepository.findAll();
+        return students.stream()
+                .filter(student -> student.getExams().isEmpty())
+                .collect(Collectors.toList());
     }
 
     @Override
