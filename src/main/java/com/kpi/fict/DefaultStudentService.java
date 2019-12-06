@@ -27,12 +27,13 @@ public class DefaultStudentService implements StudentService {
     public List<Student> findStudentsWhoTakeEngExamWith11RatingOrMore() {
         return studentRepository.findAll()
                 .stream()
-                .filter( student -> (student.getExams().stream()
-                        .anyMatch(exam -> exam.getType() == Exam.Type.ENGLISH))
+                .filter(student -> (student.getExams().stream()
+                        .filter(exam -> exam.getType() == Exam.Type.ENGLISH)
+                        .findAny()
+                        .isPresent())
                         && (student.getRating() >= 11))
                 .collect(Collectors.toList());
     }
-
     @Override
     public List<Student> findTwoStudentsWithMaxEngRating() {
 
