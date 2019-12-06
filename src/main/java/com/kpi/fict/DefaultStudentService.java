@@ -41,12 +41,7 @@ public class DefaultStudentService implements StudentService {
         return studentRepository
                 .findAll()
                 .stream()
-                .filter(s -> s
-                        .getExams()
-                        .stream()
-                        .map(Exam::getScore)
-                        .reduce(Double::sum)
-                        .get() < 300)
+                .filter(s -> s.getRating() < 300)
                 .collect(Collectors.toList());
     }
 
@@ -56,16 +51,8 @@ public class DefaultStudentService implements StudentService {
                 .findAll()
                 .stream()
                 .min((a, b) -> {
-                    double av1 = a
-                            .getExams()
-                            .stream()
-                            .map(Exam::getScore)
-                            .reduce(Double::sum).get() / a.getExams().size();
-                    double av2 = b
-                            .getExams()
-                            .stream()
-                            .map(Exam::getScore)
-                            .reduce(Double::sum).get() / b.getExams().size();
+                    double av1 = a.getRating();
+                    double av2 = b.getRating();
                     return Double.compare(av2, av1);
                 })
                 .get();
