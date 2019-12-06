@@ -46,7 +46,6 @@ public class DefaultStudentService implements StudentService {
                 .findAll()
                 .stream()
                 .filter(s ->
-                        s.getRating() > avg &&
                         s
                                 .getExams()
                                 .stream()
@@ -59,6 +58,7 @@ public class DefaultStudentService implements StudentService {
                 .collect(Collectors.toList());
     }
 
+    // c
     //Delimiter: ','
     @Override
     public List<String> getExamSumAndRatingForEachStudent() {
