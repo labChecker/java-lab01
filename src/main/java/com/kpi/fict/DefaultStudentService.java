@@ -24,14 +24,18 @@ public class DefaultStudentService implements StudentService {
                     double r1 = a
                             .getExams()
                             .stream()
-                            .map(Exam::getScore).reduce(Double::sum).get() / a.getExams().size();
+                            .mapToDouble(Exam::getScore)
+                            .average()
+                            .orElse(0.);
                     double r2 = b
                             .getExams()
                             .stream()
-                            .map(Exam::getScore).reduce(Double::sum).get() / b.getExams().size();
+                            .mapToDouble(Exam::getScore)
+                            .average()
+                            .orElse(0.);
                     return Double.compare(r1, r2);
                 })
-                .get();
+                .orElse(studentRepository.findAll().get(0));
     }
 
     @Override
@@ -39,9 +43,9 @@ public class DefaultStudentService implements StudentService {
         double avg = studentRepository
                 .findAll()
                 .stream()
-                .map(Student::getRating)
-                .reduce(Double::sum)
-                .orElse(0.) / studentRepository.findAll().size();
+                .mapToDouble(Student::getRating)
+                .average()
+                .orElse(0.);
         return studentRepository
                 .findAll()
                 .stream()
