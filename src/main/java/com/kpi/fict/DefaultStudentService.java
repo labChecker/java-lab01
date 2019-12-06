@@ -37,7 +37,7 @@ public class DefaultStudentService implements StudentService {
                 .filter(student ->
                         student.getExams()
                                 .stream()
-                                .allMatch(exam -> exam.getScore() > 180)
+                                .allMatch(exam -> exam.getScore() >= 180)
                 )
                 .collect(Collectors.toList());
     }
