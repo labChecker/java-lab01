@@ -1,5 +1,6 @@
 package com.kpi.fict;
 
+import com.kpi.fict.entities.Exam;
 import com.kpi.fict.entities.Student;
 import com.kpi.fict.repositories.StudentRepository;
 
@@ -23,7 +24,12 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public List<Student> findStudentsWhoTakeEngExamWith11RatingOrMore() {
-        throw new UnsupportedOperationException("Need to make implementation");
+        return studentRepository.findAll()
+                .stream()
+                .filter( student -> (student.getExams().stream()
+                        .anyMatch(exam -> exam.getType() == Exam.Type.ENGLISH))
+                        && (student.getRating() == 11))
+                .collect(Collectors.toList());
     }
 
     @Override
