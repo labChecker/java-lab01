@@ -66,7 +66,7 @@ public class DefaultStudentService implements StudentService {
                             .map(Exam::getScore)
                             .reduce(Double::sum);
                     double _sum = sum.isPresent() ? sum.get() : 0;
-                    return _sum + "," + s.getRating() + "," + s.getName();
+                    return _sum + "," + s.getRating();
                 })
                 .collect(Collectors.toList());
     }
