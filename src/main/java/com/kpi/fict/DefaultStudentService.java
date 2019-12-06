@@ -5,6 +5,7 @@ import com.kpi.fict.entities.Student;
 import com.kpi.fict.repositories.StudentRepository;
 
 import java.util.List;
+import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
 public class DefaultStudentService implements StudentService {
@@ -57,7 +58,13 @@ public class DefaultStudentService implements StudentService {
     //Delimiter: ','
     @Override
     public List<String> getExamSumAndRatingForEachStudent() {
-        throw new UnsupportedOperationException("Need to make implementation");
+        return studentRepository.findAll()
+                .stream()
+                .map(student ->
+                        (student.getExams().stream().mapToDouble(Exam::getScore).sum())
+                                + student.getRating()
+                                + student.getName())
+                .collect(Collectors.toList());
     }
 
     public StudentRepository getStudentRepository() {
