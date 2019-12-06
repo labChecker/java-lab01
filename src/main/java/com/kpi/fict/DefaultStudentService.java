@@ -3,7 +3,9 @@ package com.kpi.fict;
 import com.kpi.fict.entities.Exam;
 import com.kpi.fict.entities.Student;
 import com.kpi.fict.repositories.StudentRepository;
+import org.jcp.xml.dsig.internal.dom.DOMUtils;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,7 +45,9 @@ public class DefaultStudentService implements StudentService {
         double avg = studentRepository
                 .findAll()
                 .stream()
-                .mapToDouble(Student::getRating)
+                .flatMap(s -> s.getExams().stream())
+                .filter(e -> e.getType() == Exam.Type.MATH)
+                .mapToDouble(Exam::getScore)
                 .average()
                 .orElse(0.);
         return studentRepository
@@ -54,7 +58,9 @@ public class DefaultStudentService implements StudentService {
                                 .getExams()
                                 .stream()
                                 .filter(e -> e.getType() == Exam.Type.MATH)
-                                .allMatch(e -> e.getScore() > avg) &&
+                                .findFirst()
+                                .orElse(new Exam(Exam.Type.MATH, 0))
+                                .getScore() > avg &&
                         s
                                 .getExams()
                                 .stream()
@@ -86,11 +92,21 @@ public class DefaultStudentService implements StudentService {
         return studentRepository
                 .findAll()
                 .stream()
-                .filter(s -> s
-                        .getExams()
-                        .stream()
-                        .filter(e -> e.getType() == Exam.Type.MATH || e.getType() == Exam.Type.ENGLISH)
-                        .allMatch(e -> e.getScore() > 180)
+                .filter(s ->
+                        s
+                                .getExams()
+                                .stream()
+                                .filter(e -> e.getType() == Exam.Type.MATH)
+                                .findFirst()
+                                .orElse(new Exam(Exam.Type.MATH, 0))
+                                .getScore() > 180 &&
+                        s
+                                .getExams()
+                                .stream()
+                                .filter(e -> e.getType() == Exam.Type.ENGLISH)
+                                .findFirst()
+                                .orElse(new Exam(Exam.Type.ENGLISH, 0))
+                                .getScore() > 180
                 )
                 .collect(Collectors.toList());
     }
@@ -113,9 +129,10 @@ public class DefaultStudentService implements StudentService {
                             .findFirst();
                     double _aa = aa.map(Exam::getScore).orElse(0.0);
                     double _bb = bb.map(Exam::getScore).orElse(0.0);
-                    return Double.compare(_aa, _bb);
+                    return Double.compare(_bb, _aa);
                 })
                 .limit(2)
+                .sorted(Comparator.comparing(Student::getName))
                 .collect(Collectors.toList());
     }
 
