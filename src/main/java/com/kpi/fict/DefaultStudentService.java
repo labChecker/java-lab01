@@ -35,13 +35,21 @@ public class DefaultStudentService implements StudentService {
                 .stream()
                 .map(Student::getRating)
                 .reduce(Double::sum)
-                .get() / studentRepository.findAll().size();
+                .orElse(0.) / studentRepository.findAll().size();
         return studentRepository
                 .findAll()
                 .stream()
                 .filter(s ->
                         s.getRating() > avg &&
-                        s.getExams().stream().anyMatch(e -> e.getType() == Exam.Type.ENGLISH))
+                        s
+                                .getExams()
+                                .stream()
+                                .filter(e -> e.getType() == Exam.Type.MATH)
+                                .allMatch(e -> e.getScore() > avg) &&
+                        s
+                                .getExams()
+                                .stream()
+                                .anyMatch(e -> e.getType() == Exam.Type.ENGLISH))
                 .collect(Collectors.toList());
     }
 
