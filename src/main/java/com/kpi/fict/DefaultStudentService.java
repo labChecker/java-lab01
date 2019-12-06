@@ -20,7 +20,7 @@ public class DefaultStudentService implements StudentService {
         return studentRepository
                 .findAll()
                 .stream()
-                .min((a, b) -> {
+                .max((a, b) -> {
                     double r1 = a.getRating();
                     double r2 = b.getRating();
                     return Double.compare(r1, r2);
