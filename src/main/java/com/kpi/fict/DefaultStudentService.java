@@ -29,7 +29,7 @@ public class DefaultStudentService implements StudentService {
                 .stream()
                 .filter( student -> (student.getExams().stream()
                         .anyMatch(exam -> exam.getType() == Exam.Type.ENGLISH))
-                        && (student.getRating() == 11))
+                        && (student.getRating() >= 11))
                 .collect(Collectors.toList());
     }
 
@@ -58,14 +58,14 @@ public class DefaultStudentService implements StudentService {
     //Delimiter: ','
     @Override
     public List<String> getExamSumAndRatingForEachStudent() {
-//        return studentRepository.findAll()
-//                .stream()
-//                .map(student ->
-//                        (student.getExams().stream().mapToDouble(Exam::getScore).sum())
-//                                + student.getRating()
-//                                + student.getName())
-//                .collect(Collectors.toList());
-        throw new UnsupportedOperationException("Need to make implementation");
+        return studentRepository.findAll()
+                .stream()
+                .map(student ->
+                        (student.getExams().stream().mapToDouble(Exam::getScore).sum())
+                                + student.getRating()
+                                + student.getName())
+                .collect(Collectors.toList());
+
     }
 
     public StudentRepository getStudentRepository() {
