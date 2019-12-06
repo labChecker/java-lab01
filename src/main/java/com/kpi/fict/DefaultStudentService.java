@@ -25,50 +25,49 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public List<Student> findStudentsWhoTakeEngExamWith11RatingOrMore() {
-//        return studentRepository.findAll()
-//                .stream()
-//                .filter(student -> (student.getExams().stream()
-//                        .anyMatch(exam -> exam.getType() == Exam.Type.ENGLISH))
-//                        && (student.getRating() >= 11))
-//                .collect(Collectors.toList());
-        throw new UnsupportedOperationException("Need to make implementation");
+        return studentRepository.findAll()
+                .stream()
+                .filter(student -> (student.getExams().stream()
+                        .anyMatch(exam -> exam.getType() == Exam.Type.ENGLISH))
+                        && (student.getRating() >= 11))
+                .collect(Collectors.toList());
     }
     @Override
     public List<Student> findTwoStudentsWithMaxEngRating() {
 
-//         List<Double> engRating = studentRepository.findAll()
-//                 .stream()
-//                 .flatMap(student -> student.getExams().stream())
-//                 .filter(exam -> exam.getType() == Exam.Type.ENGLISH)
-//                 .mapToDouble(Exam::getScore)
-//                 .sorted()
-//                 .boxed()
-//                 .collect(Collectors.toList());
-//        return studentRepository.findAll()
-//                .stream()
-//                .filter(student -> student.getExams().stream()
-//                        .anyMatch(exam ->
-//                                (exam.getScore() == engRating.get(1))
-//                                        ||(exam.getScore() == engRating.get(2))
-//                        )
-//                )
-//                .collect(Collectors.toList());
-        throw new UnsupportedOperationException("Need to make implementation");
+         List<Double> engRating = studentRepository.findAll()
+                 .stream()
+                 .flatMap(student -> student.getExams().stream())
+                 .filter(exam -> exam.getType() == Exam.Type.ENGLISH)
+                 .mapToDouble(Exam::getScore)
+                 .sorted()
+                 .boxed()
+                 .collect(Collectors.toList());
+        return studentRepository.findAll()
+                .stream()
+                .filter(student -> student.getExams().stream()
+                        .anyMatch(exam ->
+                                (exam.getScore() == engRating.get(1))
+                                        ||(exam.getScore() == engRating.get(2))
+                        )
+                )
+                .collect(Collectors.toList());
+
     }
 
     @Override
     public List<Student> findStudentsWhoTakeMathEngExamWith180RatingOrMore() {
-//        return studentRepository.findAll().stream()
-//                .filter(student -> student
-//                        .getExams()
-//                        .stream()
-//                        .anyMatch(exam -> exam.getType().equals(Exam.Type.MATH) && exam.getScore() >= 180))
-//                .filter(student -> student
-//                        .getExams()
-//                        .stream()
-//                        .anyMatch(exam -> exam.getType().equals(Exam.Type.ENGLISH) && exam.getScore() >= 180))
-//                .collect(Collectors.toList());
-        throw new UnsupportedOperationException("Need to make implementation");
+        return studentRepository.findAll().stream()
+                .filter(student -> student
+                        .getExams()
+                        .stream()
+                        .anyMatch(exam -> exam.getType().equals(Exam.Type.MATH) && exam.getScore() >= 180))
+                .filter(student -> student
+                        .getExams()
+                        .stream()
+                        .anyMatch(exam -> exam.getType().equals(Exam.Type.ENGLISH) && exam.getScore() >= 180))
+                .collect(Collectors.toList());
+
     }
 
     //Delimiter: ','
