@@ -44,7 +44,8 @@ public class DefaultStudentService implements StudentService {
                 .filter(s -> s
                         .getExams()
                         .stream()
-                        .map(e -> e.getScore()).reduce((acc, e) -> acc + e)
+                        .map(Exam::getScore)
+                        .reduce(Double::sum)
                         .get() < 300)
                 .collect(Collectors.toList());
     }
