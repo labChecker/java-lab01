@@ -19,7 +19,7 @@ public class DefaultStudentService implements StudentService {
         return studentRepository
                 .findAll()
                 .stream()
-                .filter(s -> s.getExams().size() <= 0)
+                .filter(s -> s.getExams().size() == 0)
                 .collect(Collectors.toList());
     }
 
@@ -54,7 +54,8 @@ public class DefaultStudentService implements StudentService {
     public Student findStudentWithMaxAvgExamRating() {
         return studentRepository
                 .findAll()
-                .stream().min((a, b) -> {
+                .stream()
+                .min((a, b) -> {
                     double av1 = a
                             .getExams()
                             .stream()
