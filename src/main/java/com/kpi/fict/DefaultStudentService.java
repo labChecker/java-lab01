@@ -1,6 +1,9 @@
 package com.kpi.fict;
 
+import com.kpi.fict.entities.Student;
 import com.kpi.fict.repositories.StudentRepository;
+
+import java.util.List;
 
 public class DefaultStudentService implements StudentService {
   private StudentRepository studentRepository;
