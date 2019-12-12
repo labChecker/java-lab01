@@ -1,0 +1,6 @@
+com/kpi/fict/DefaultStudentService.class
+com/kpi/fict/repositories/StudentRepository.class
+com/kpi/fict/entities/Exam$Type.class
+com/kpi/fict/StudentService.class
+com/kpi/fict/entities/Student.class
+com/kpi/fict/entities/Exam.class
