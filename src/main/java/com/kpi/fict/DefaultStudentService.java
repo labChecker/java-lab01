@@ -40,7 +40,7 @@ public class DefaultStudentService implements StudentService {
 
     @Override
     public List<String> calculateAvgRatingForEachStudent() {
-        return this.studentRepository.findAll().stream().filter(student -> (long) student.getExams().size() > 0).map(student -> student.getRating() + " + " + (student.getExams().stream().mapToDouble(Exam::getScore).reduce(0, Double::sum) / student.getExams().size())).collect(Collectors.toList());
+        return this.studentRepository.findAll().stream().filter(student -> (long) student.getExams().size() > 0).map(student -> student.getRating() + "," + (student.getExams().stream().mapToDouble(Exam::getScore).reduce(0, Double::sum) / student.getExams().size())).collect(Collectors.toList());
     }
 
     @Override
