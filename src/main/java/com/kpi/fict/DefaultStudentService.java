@@ -1,7 +1,11 @@
 package com.kpi.fict;
-
+import com.kpi.fict.entities.Exam;
 import com.kpi.fict.entities.Student;
 import com.kpi.fict.repositories.StudentRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 import java.util.List;
 
