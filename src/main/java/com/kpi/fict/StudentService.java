@@ -1,13 +1,17 @@
 package com.kpi.fict;
 
+import com.kpi.fict.entities.Student;
+
+import java.util.List;
+
 public interface StudentService {
-    void task1();
+    Student findFirstWithoutMath();
 
-    void task2();
+    List<Student> findStudentsWhoTakeMathAndOneMoreExam();
 
-    void task3();
+    List<Student> findStudentsWithRatingMoreThanAvgAndTakeMathExam();
 
-    void task4();
+    double findAvgRatingOfMathExam();
 
-    void task5();
+    List<String> calculateAvgRatingForEachStudent();
 }

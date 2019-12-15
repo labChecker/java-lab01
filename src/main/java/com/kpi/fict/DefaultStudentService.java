@@ -1,6 +1,13 @@
 package com.kpi.fict;
 
+import com.kpi.fict.entities.Exam;
+import com.kpi.fict.entities.Student;
 import com.kpi.fict.repositories.StudentRepository;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 public class DefaultStudentService implements StudentService {
     private StudentRepository studentRepository;
@@ -10,28 +17,67 @@ public class DefaultStudentService implements StudentService {
     }
 
     @Override
-    public void task1() {
-        throw new UnsupportedOperationException("Need to make implementation");
+    public Student findFirstWithoutMath() {
+        return studentRepository
+                .findAll()
+                .stream()
+                .filter(student -> student
+                        .getExams()
+                        .stream()
+                        .noneMatch(exam -> exam.getType() == Exam.Type.MATH))
+                .findFirst()
+                .orElseThrow(NoSuchElementException::new);
     }
 
     @Override
-    public void task2() {
-        throw new UnsupportedOperationException("Need to make implementation");
+    public List<Student> findStudentsWhoTakeMathAndOneMoreExam() {
+        return studentRepository.findAll().stream().filter(student ->
+                student
+                        .getExams()
+                        .stream()
+                        .anyMatch(exam -> exam.getType() == Exam.Type.MATH)
+                        &&
+                        student
+                                .getExams()
+                                .size() == 2
+        ).collect(Collectors.toList());
     }
 
     @Override
-    public void task3() {
-        throw new UnsupportedOperationException("Need to make implementation");
+    public List<Student> findStudentsWithRatingMoreThanAvgAndTakeMathExam() {
+        double avgRating = studentRepository
+                .findAll()
+                .stream()
+                .mapToDouble(Student::getRating)
+                .average()
+                .orElse(0.0);
+
+        return studentRepository
+                .findAll()
+                .stream()
+                .filter(s -> s.getRating() > avgRating && s
+                        .getExams()
+                        .stream()
+                        .anyMatch(e -> e.getType() == Exam.Type.MATH))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public void task4() {
-        throw new UnsupportedOperationException("Need to make implementation");
+    public double findAvgRatingOfMathExam() {
+        return studentRepository
+                .findAll()
+                .stream()
+                .map(Student::getExams)
+                .flatMap(Collection::stream)
+                .filter(e -> e.getType() == Exam.Type.MATH)
+                .mapToDouble(Exam::getScore)
+                .average()
+                .orElse(0.0);
     }
 
     @Override
-    public void task5() {
-        throw new UnsupportedOperationException("Need to make implementation");
+    public List<String> calculateAvgRatingForEachStudent() {
+        return this.studentRepository.findAll().stream().filter(student -> (long) student.getExams().size() > 0).map(student -> student.getRating() + ", " + (student.getExams().stream().mapToDouble(Exam::getScore).reduce(0, Double::sum) / student.getExams().size())).collect(Collectors.toList());
     }
 
     public StudentRepository getStudentRepository() {
