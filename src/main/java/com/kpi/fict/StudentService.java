@@ -12,6 +12,4 @@ public interface StudentService {
     List<Student> findStudentsWithRatingMoreThanAvgAndTakeMathExam();
 
     double findAvgRatingOfMathExam();
-
-    List<String> calculateAvgRatingForEachStudent();
 }
